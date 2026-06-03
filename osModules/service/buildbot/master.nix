@@ -24,7 +24,7 @@ in
 
       workersFile = config.age.secrets.workers.path;
 
-      admins = [ "philipwilk" ];
+      admins = [ "jadewilk" ];
       github = {
         appId = 914149;
         appSecretKeyFile = config.age.secrets.gh_pem.path;

@@ -6,9 +6,9 @@ dn: ou=users,dc=ldap,dc=fogbox,dc=uk
 objectclass: organizationalUnit
 ou: users
 
-dn: uid=philipwilk,ou=users,dc=ldap,dc=fogbox,dc=uk
+dn: uid=jadewilk,ou=users,dc=ldap,dc=fogbox,dc=uk
 objectclass: inetOrgPerson
 description: myself
-cn: Philip Wilk
+cn: Jade Wilk
 sn: Wilk
-uid: philipwilk
+uid: jadewilk

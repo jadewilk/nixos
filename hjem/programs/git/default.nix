@@ -12,7 +12,7 @@ in
     enable = lib.mkEnableOption "git";
     name = lib.mkOption {
       type = lib.types.str;
-      default = "Philip Wilk";
+      default = "Jade Wilk";
     };
     email = lib.mkOption {
       type = lib.types.str;

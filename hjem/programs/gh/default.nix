@@ -24,8 +24,8 @@
       value = {
         "github.com" = {
           git_protocol = "ssh";
-          users.philipwilk = { };
-          user = "philipwilk";
+          users.jadewilk = { };
+          user = "jadewilk";
         };
       };
     };

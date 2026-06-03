@@ -48,7 +48,7 @@ in
     services.soft-serve = {
       enable = true;
       settings = {
-        name = "Philip's repos";
+        name = "Jade's repos";
         log_format = "text";
         ssh = {
           listen_addr = sshAddr;
