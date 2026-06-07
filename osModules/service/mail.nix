@@ -56,8 +56,8 @@ in
     };
 
     security.acme.certs = {
-      "${domain}" = { };
-      "${svcDomain}" = { };
+      "${domain}".reloadServices = [ "stalwart" ];
+      "${svcDomain}".reloadServices = [ "stalwart" ];
     };
 
     systemd.services.stalwart = {
