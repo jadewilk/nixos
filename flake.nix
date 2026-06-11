@@ -218,6 +218,7 @@
                     token = "env/DESEC_TOKEN";
                   };
                   zones."fogbox.uk." = generateZoneAttrs [ "desec" ];
+                  zones."jadewilk.uk." = generateZoneAttrs [ "desec" ];
                 };
               };
 
