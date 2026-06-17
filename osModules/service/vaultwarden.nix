@@ -18,7 +18,7 @@
         ROCKET_ADDRESS = "127.0.0.1";
         ROCKET_PORT = 8222;
         DOMAIN = "https://vault.fogbox.uk";
-        SIGNUPS_DOMAINS_WHITELIST = "fogbox.uk,student.reading.ac.uk";
+        SIGNUPS_DOMAINS_WHITELIST = "fogbox.uk,student.reading.ac.uk,jadewilk.uk";
         SIGNUPS_VERIFY = true;
         SHOW_PASSWORD_HINT = false;
         SMTP_HOST = "fogbox.uk";
