@@ -76,7 +76,7 @@ in
               seaborn
               networkx
               plotly
-              cartopy
+              # cartopy
               xarray
               joblib
               netcdf4
@@ -99,26 +99,6 @@ in
             ];
         in
         {
-          python312 =
-            let
-              env = pkgs.python312.withPackages python3ForMlGenerator;
-            in
-            {
-              displayName = "Python 312 for ML";
-              argv = [
-                "${env.interpreter}"
-                "-m"
-                "ipykernel_launcher"
-                "-f"
-                "{connection_file}"
-              ];
-              env = {
-                TF_ENABLE_ONEDNN_OPTS = "0";
-              };
-              language = "python";
-              logo32 = "${env}/${env.sitePackages}/ipykernel/resources/logo-32x32.png";
-              logo64 = "${env}/${env.sitePackages}/ipykernel/resources/logo-64x64.png";
-            };
           python313 =
             let
               env = pkgs.python313.withPackages python3ForMlGenerator;
