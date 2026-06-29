@@ -74,7 +74,7 @@ in
       set -q __fish_config_sourced; and exit
       set -g __fish_config_sourced 1
 
-      fish_config theme choose "Catppuccin Frappé" --color-theme=light
+      fish_config theme choose "catppuccin-frappe" --color-theme=light
 
       source ${translatedSessionVariables}
 
