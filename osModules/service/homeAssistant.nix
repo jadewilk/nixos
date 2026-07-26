@@ -89,7 +89,6 @@
         "mqttPwd.yaml:${config.age.secrets.zigbeeMqttPwdYml.path}"
       ];
       Restart = lib.mkForce "always";
-      RestartSec = "10s";
       StandardError = "inherit";
       StandardOutput = "inherit";
     };

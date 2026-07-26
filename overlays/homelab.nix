@@ -21,5 +21,7 @@
     (import ./searxng)
 
     (import ./chip-ota-provider-app)
+
+    (import ./vaultwarden)
   ];
 }
