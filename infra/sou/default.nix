@@ -10,6 +10,14 @@
 
   system.stateVersion = "24.11"; # Did you read the comment?
 
+  networking.wireless.iwd = {
+    enable = true;
+    settings.General = {
+      UseDefaultNetwork = true;
+      EnableNetworkConfiguration = true;
+    };
+  };
+
   systemd.network.links =
     let
       lan = config.homelab.routing.interfaces.lan;
@@ -114,7 +122,10 @@
   homelab.ci.runners.gitlab.csgitlab.secretPath = ../../secrets/runners/csgitlab/sou.age;
 
   boot.kernelModules = [ "nct6775" ];
-  environment.systemPackages = with pkgs; [ hddfancontrol ];
+  environment.systemPackages = with pkgs; [
+    hddfancontrol
+    impala
+  ];
   services.hddfancontrol = {
     enable = true;
     settings =
