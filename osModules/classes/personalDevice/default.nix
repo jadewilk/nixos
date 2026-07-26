@@ -19,6 +19,7 @@
     ../../environment/programs/octodns
     ../../environment/programs/lego
     ../../environment/programs/winbox
+    ../../environment/programs/mullvad
 
     ../../environment/arrrTools
     ../../environment/gameLaunchers
