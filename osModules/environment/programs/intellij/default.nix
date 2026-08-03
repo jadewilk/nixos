@@ -4,8 +4,6 @@
 }:
 {
   environment.systemPackages = with pkgs; [
-    bruno
-    darcs
-    mdcat
+    jetbrains.idea
   ];
 }

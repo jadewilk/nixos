@@ -20,6 +20,7 @@
     ../../environment/programs/lego
     ../../environment/programs/winbox
     ../../environment/programs/mullvad
+    ../../environment/programs/intellij
 
     ../../environment/arrrTools
     ../../environment/gameLaunchers
