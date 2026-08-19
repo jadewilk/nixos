@@ -6,7 +6,7 @@
 }:
 let
   cfg = config.system.idmUserAuth;
-  package = pkgs.kanidm_1_10;
+  package = pkgs.kanidm_1_11;
 in
 {
   options.system.idmUserAuth = {
