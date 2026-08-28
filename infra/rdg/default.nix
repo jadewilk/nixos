@@ -73,6 +73,13 @@ in
       vlan = [
         secondaryWanVlan
       ];
+      dhcpServerStaticLeases = [
+        {
+          # brother ql-1110nwb
+          Address = "192.168.1.5";
+          MACAddress = "BC:F4:D4:98:88:99";
+        }
+      ];
     };
   };
 
