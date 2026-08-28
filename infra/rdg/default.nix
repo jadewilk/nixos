@@ -79,6 +79,11 @@ in
           Address = "192.168.1.5";
           MACAddress = "BC:F4:D4:98:88:99";
         }
+        {
+          # miwifi ap
+          Address = "192.168.31.16";
+          MACAddress = "CC:D8:43:B0:F7:44";
+        }
       ];
     };
   };
