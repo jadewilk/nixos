@@ -117,6 +117,7 @@ in
             "bing".disabled = true;
             "google".disabled = true;
             "brave".disabled = true;
+            "google_cse".disable = true;
             # IT/Development
             "crates.io".disabled = false;
             "npm".disabled = false;
