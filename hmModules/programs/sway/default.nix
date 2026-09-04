@@ -35,6 +35,8 @@ in
     # Appindicator
     libappindicator
     libappindicator-gtk3
+
+    awww
   ];
 
   # Home manager config
@@ -300,6 +302,8 @@ in
 
       exec swaync
       bindsym Mod4+Shift+n exec swaync-client -t -sw
+
+      exec ${lib.getExe' pkgs.awww "awww-daemon"}
     '';
   };
 }
