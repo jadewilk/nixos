@@ -11,6 +11,10 @@
       greetd.fprintAuth = false;
     };
 
+    environment.systemPackages = with pkgs; [
+      xarchiver
+    ];
+
     services = {
       greetd = {
         enable = true;
