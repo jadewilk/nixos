@@ -19,7 +19,7 @@ in
     # Desktop chore replacements
     loupe
     nautilus
-    gcr
+    gcr_4
     seahorse
     wmname
 

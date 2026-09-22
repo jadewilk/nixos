@@ -14,7 +14,12 @@
     };
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
     settings = {
-      experimental-features = "nix-command flakes auto-allocate-uids ca-derivations";
+      experimental-features = [
+        "nix-command"
+        "flakes"
+        "auto-allocate-uids"
+        "ca-derivations"
+      ];
       auto-optimise-store = true;
       trusted-users = [ "philip" ];
       substituters = [ "https://cache.fogbox.uk" ];
