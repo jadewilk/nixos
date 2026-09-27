@@ -17,6 +17,7 @@ in
       ./system/users/philip-server
 
       ./replaced/services/monitoring/prometheus/exporters.nix
+      ./replaced/hardware/sensor/hddtemp.nix
     ];
 
   options.homelab = {
