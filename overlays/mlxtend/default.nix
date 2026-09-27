@@ -2,7 +2,6 @@
   lib,
   buildPythonPackage,
   fetchFromGitHub,
-  isPy27,
   setuptools,
   pytestCheckHook,
   scipy,
@@ -15,16 +14,14 @@
 
 buildPythonPackage rec {
   pname = "mlxtend";
-  version = "0.24.0";
+  version = "0.25.0";
   pyproject = true;
-
-  disabled = isPy27;
 
   src = fetchFromGitHub {
     owner = "rasbt";
     repo = "mlxtend";
     tag = "v${version}";
-    hash = "sha256-zDMFfm8VqEfAQd11PZNp7HsoLcqrj3nMqnvKhXaeA04=";
+    hash = "sha256-h0qGvQfsWOCP/9XPlih94nGNp4ppplWJ+89qedYipPk=";
   };
 
   build-system = [ setuptools ];
@@ -38,11 +35,6 @@ buildPythonPackage rec {
     joblib
   ];
 
-  patches = [
-    # https://github.com/rasbt/mlxtend/issues/1117
-    # ./0001-StackingCVClassifier-fit-ensure-compatibility-with-s.patch
-  ];
-
   nativeCheckInputs = [ pytestCheckHook ];
 
   pytestFlags = [ "-sv" ];
@@ -52,13 +44,10 @@ buildPythonPackage rec {
     "test_invalid_labels_1"
     "test_default"
     "test_nullability"
-
-    "test_standardized_iris_data"
-    "test_progress_1"
-    "test_progress_2"
-    "test_progress_3"
-    "test_score_function"
-    "test_nonstandardized_iris_data"
+    # see upstream issue https://github.com/rasbt/mlxtend/issues/1200
+    # test failures after updating scikit-learn 1.8.0->1.9.0
+    "test_sample_weight"
+    "test_fit_params"
   ];
 
   disabledTestPaths = [
@@ -66,10 +55,6 @@ buildPythonPackage rec {
     "mlxtend/evaluate/tests/test_feature_importance.py" # urlopen error
     "mlxtend/evaluate/tests/test_bias_variance_decomp.py" # keras.api._v2
     "mlxtend/evaluate/tests/test_bootstrap_point632.py" # keras.api._v2
-    # Failing tests, most likely an upstream issue. See https://github.com/rasbt/mlxtend/issues/1117
-    "mlxtend/classifier/tests/test_ensemble_vote_classifier.py"
-    "mlxtend/classifier/tests/test_stacking_classifier.py"
-    "mlxtend/classifier/tests/test_stacking_cv_classifier.py"
   ];
 
   meta = {
