@@ -17,6 +17,7 @@
     ./system/timezoned
 
     ./environment/containers
+    ./environment/virtualisation
     ./environment/androidTools
     ./environment/dbTools
     ./environment/nixTools
