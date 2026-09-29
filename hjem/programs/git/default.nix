@@ -16,7 +16,7 @@ in
     };
     email = lib.mkOption {
       type = lib.types.str;
-      default = "p.wilk@student.reading.ac.uk";
+      default = "j.wilk@student.reading.ac.uk";
     };
     signingKey = lib.mkOption {
       type = lib.types.str;
