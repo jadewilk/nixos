@@ -9,6 +9,7 @@
     # Nixos config
     security.pam.services = {
       greetd.fprintAuth = false;
+      swaylock.fprintAuth = false;
     };
 
     environment.systemPackages = with pkgs; [

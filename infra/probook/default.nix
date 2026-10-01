@@ -15,10 +15,7 @@
     LIBVA_DRIVER_NAME = "iHD";
   };
 
-  services = {
-    fprintd.enable = true;
-    pcscd.enable = true;
-  };
+  services.pcscd.enable = true;
 
   services.thermald.enable = true;
 
