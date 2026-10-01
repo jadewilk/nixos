@@ -15,10 +15,11 @@
     LIBVA_DRIVER_NAME = "iHD";
   };
 
-  services = {
-    fprintd.enable = true;
-    pcscd.enable = true;
-  };
+  environment.systemPackages = with pkgs; [
+    marvisclient-linux
+  ];
+
+  services.pcscd.enable = true;
 
   services.thermald.enable = true;
 

@@ -158,6 +158,7 @@ in
       style = catppuccin + waybar-style;
     };
     xplr.enable = true;
+    swaylock.enable = true;
   };
 
   services = {
@@ -286,6 +287,8 @@ in
           # Screenshots
           "Print" =
             ''exec ${grim} -g "$(${slurp} -d)" - | wl-copy -t image/png && wl-paste > ~/Pictures/Screenshots/screenshot-$(date).png'';
+          # Swaylock
+          "${mod}+Shift+l" = "exec ${lib.getExe pkgs.swaylock}";
         };
     };
     # Swayfx
