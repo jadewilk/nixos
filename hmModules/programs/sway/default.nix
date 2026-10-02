@@ -77,7 +77,7 @@ in
           format = "{:%Y-%m-%d %H:%M:%S}";
         };
         mpris = {
-          format = "{player_icon} {player}: {artist} {title}";
+          format = "{player_icon} {player}: {artist}";
         };
         modules-right = [
           "tray"
