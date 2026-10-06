@@ -15,6 +15,10 @@
     LIBVA_DRIVER_NAME = "iHD";
   };
 
+  environment.systemPackages = with pkgs; [
+    marvisclient-linux
+  ];
+
   services.pcscd.enable = true;
 
   services.thermald.enable = true;
