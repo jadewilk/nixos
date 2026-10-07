@@ -30,7 +30,10 @@
         "cryptswap".device = "/dev/disk/by-uuid/bb339e19-2a49-455e-9bc2-963a18479fc8";
       };
     };
-    kernelModules = [ "kvm-intel" ];
+    kernelModules = [
+      "kvm-intel"
+      "pkcs8_key_parser"
+    ];
     extraModulePackages = [ ];
   };
 
