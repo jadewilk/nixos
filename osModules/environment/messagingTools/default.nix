@@ -8,5 +8,6 @@
     slack
     teams-for-linux
     signal-desktop
+    karere
   ];
 }
