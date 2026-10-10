@@ -7,7 +7,6 @@
 {
   environment.systemPackages = with pkgs; [
     impala
-    iwgtk
     iwmenu
   ];
   networking.networkmanager.wifi.backend = "iwd";
@@ -16,6 +15,7 @@
     settings = {
       General = {
         UseDefaultNetwork = true;
+        AddressRandomization = "network";
       };
       Network = {
         EnableIPv6 = true;
@@ -24,6 +24,9 @@
       };
       Settings = {
         AutoConnect = true;
+      };
+      Scan = {
+        DisablePeriodicScan = true;
       };
     };
   };
