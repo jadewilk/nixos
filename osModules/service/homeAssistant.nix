@@ -21,7 +21,6 @@
         # https://www.home-assistant.io/integrations/isal
         "isal"
         # stuff
-        "nanoleaf"
         "cast"
         "denonavr"
         "heos"
@@ -33,16 +32,34 @@
         "zeroconf"
       ];
       config = {
-        # Includes dependencies for a basic setup
-        # https://www.home-assistant.io/integrations/default_config/
-        default_config = { };
-
         "automation ui" = "!include automations.yaml";
         "scene ui" = "!include scenes.yaml";
         "script ui" = "!include scripts.yaml";
 
+        automation = "!include automations.yaml";
+        cloud = "";
+        config = "";
+        frontend = "";
+        history = "";
+        input_boolean = "";
+        input_datetime = "";
+        input_number = "";
+        input_select = "";
+        input_text = "";
+        logbook = "";
+        "map" = "";
+        mobile_app = "";
+        person = "";
+        script = "";
+        sun = "";
+        system_health = "";
+        update = "";
+        zerocof = "";
+        zon = "";
+
         # to use postgres
         recorder.db_url = "postgresql://@/hass";
+
       };
       extraPackages = ps: with ps; [ psycopg2 ];
     };

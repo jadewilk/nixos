@@ -12,6 +12,8 @@ in
 {
   imports = [
     ./hardware-configuration.nix
+
+    ../../osModules/services/unifi-os
   ];
 
   networking.hostId = "e9b36049";

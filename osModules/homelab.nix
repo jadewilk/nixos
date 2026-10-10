@@ -18,6 +18,7 @@ in
 
       ./replaced/services/monitoring/prometheus/exporters.nix
       ./replaced/hardware/sensor/hddtemp.nix
+      ./replaced/virtualisation/oci-containers.nix
     ];
 
   options.homelab = {
@@ -143,7 +144,7 @@ in
         defaults = {
           email = config.homelab.acme.mail;
           dnsProvider = "desec";
-          dnsResolver = "9.9.9.9:53";
+          dnsResolver = "1.1.1.1:53";
           profile = "shortlived";
           environmentFile = pkgs.writeText "desecEnvs" ''
             DESEC_POLLING_INTERVAL=90

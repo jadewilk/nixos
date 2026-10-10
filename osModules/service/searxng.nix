@@ -65,7 +65,7 @@ in
           #enable_metrics = false;
         };
         server = {
-          port = 8080;
+          port = 8111;
           bind_address = "0.0.0.0";
           limiter = true;
           image_proxy = true;
