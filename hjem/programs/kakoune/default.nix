@@ -30,7 +30,7 @@ in
     packages = with pkgs; [
       kakouneWithPlugins
       nixfmt
-      nil
+      nixd
       lemminx
       vscode-json-languageserver
       python313Packages.editorconfig
@@ -83,10 +83,10 @@ in
       # # LSP servers
       hook -group lsp-filetype-nix global BufSetOption filetype=nix %{
         set-option buffer lsp_servers %{
-          [nil]
+          [nixd]
           root_globs = ["flake.nix", "shell.nix", ".git", ".hg"]
-          [nil.settings]
-          nil.formatting.command = ["nixfmt"]
+          [nixd.settings]
+          formatting.command = ["nixfmt"]
         }
       }
 

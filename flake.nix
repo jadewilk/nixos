@@ -167,7 +167,7 @@
             make-shells.default = {
               packages = with pkgs; [
                 nixfmt
-                nil
+                nixd
                 nix-tree
               ];
             };
