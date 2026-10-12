@@ -21,6 +21,7 @@
     ../../environment/programs/winbox
     ../../environment/programs/mullvad
     ../../environment/programs/intellij
+    ../../environment/programs/nix/remoteBuilder.nix
 
     ../../environment/arrrTools
     ../../environment/gameLaunchers

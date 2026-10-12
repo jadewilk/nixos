@@ -52,6 +52,11 @@ in
               { }
           ) commonLocalDef;
         };
+        root = {
+          directory = "/root";
+          user = "root";
+          localDef.programs = commonLocalDef;
+        };
         wslphilip = lib.mkIf (config.flakeConfig.environment.primaryHomeManagedUser == "wslphilip") {
           directory = "/home/wslphilip";
           user = "wslphilip";
