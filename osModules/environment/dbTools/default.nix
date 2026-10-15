@@ -7,5 +7,6 @@
     dbeaver-bin
     openldap
     apache-directory-studio
+    redisinsight
   ];
 }

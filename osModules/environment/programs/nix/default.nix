@@ -6,7 +6,13 @@
   ...
 }:
 {
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = [
+      "ventoy-1.1.17"
+      "electron-41.10.7"
+    ];
+  };
   nix = {
     package = pkgs.nixVersions.nix_2_34;
     registry = lib.mapAttrs (_: value: { flake = value; }) {
