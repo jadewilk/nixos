@@ -22,6 +22,7 @@ in
     gcr_4
     seahorse
     wmname
+    snapshot
 
     bluetuith
 
