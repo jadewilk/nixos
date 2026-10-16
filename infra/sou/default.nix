@@ -139,7 +139,7 @@
             "${platformControllerId}/pwm2:25:10"
           ];
           disks = [
-            "`find /dev/disk/by-id -name \"scsi*\" -and -not -name \"*-part*\" -printf \"%p \"`"
+            "$(find /dev/disk/by-id -name \"scsi*\" -and -not -name \"*-part*\" -printf \"%p \")"
           ];
           extraArgs = [
             "--interval=30s"
@@ -149,7 +149,7 @@
         sffBay = {
           pwmPaths = [ "${platformControllerId}/pwm1:80:55" ];
           disks = [
-            "`find /dev/disk/by-id -name \"ata*\" -and -not -name \"*-part*\" -printf \"%p \"`"
+            "$(find /dev/disk/by-id -name \"ata*\" -and -not -name \"*-part*\" -printf \"%p \")"
           ];
           extraArgs = [
             "--interval=30s"
