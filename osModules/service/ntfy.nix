@@ -6,7 +6,7 @@
 let
   cfg = config.homelab.services.ntfy;
   domain = "push.${config.homelab.tld}";
-  stateDir = "${config.homelab.stateDir}/ntfy";
+  stateDir = "/var/lib/ntfy-sh";
   credPath = "/run/credentials/ntfy-sh.service";
 in
 {
@@ -21,9 +21,6 @@ in
       EnvironmentFile = config.age.secrets.ntfy-envs.path;
       LoadCredential = [
         "firebase.json:${config.age.secrets.ntfy-firebase.path}"
-      ];
-      ReadWritePaths = [
-        stateDir
       ];
     };
 
