@@ -35,6 +35,10 @@ let
   ];
 
   unifiDomain = "unifi.${config.homelab.tld}";
+  unifiNetwork = "uosservernetwork";
+  unifiNetworkShim = "uosservernetwork-shim";
+  unifiControllerIp = "192.168.1.3";
+  unifiNetworkShimIp = "192.168.1.4";
 
   # see https://github.com/unihosted/unifi-os-server-docker/blob/91144ab74f2703b4713d22cc882303f37a71b72d/uos-entrypoint.sh#L216
   entryPointScript = pkgs.writeScript "entrypoint.sh" ''
@@ -103,9 +107,17 @@ in
       NET_RAW = true;
       NET_ADMIN = true;
     };
+    networks = [
+      unifiNetwork
+    ];
     extraOptions = [
+      "--add-host=host.docker.internal:host-gateway"
+      "--add-host=host.containers.internal:host-gateway"
+      "--systemd=always"
       "--cgroupns=host"
       "--tz=local"
+      "--pids-limit=8192"
+      "--ip=${unifiControllerIp}"
     ];
     tmpFs = {
       "/run" = [ "exec" ];
@@ -117,36 +129,55 @@ in
     };
     # ports taken from https://github.com/unihosted/unifi-os-server-docker/blob/main/docker-compose.yaml
     ports = [
-      "1900:1900/udp"
-      "8080:8080"
-      "8443:8443"
-      "8444:8444"
-      "8880-8882:8880-8882"
-      "11443:443"
+      "10001:10001/udp"
+      "11002:11002/udp"
+      "10003:10003/udp"
       "3478:3478/udp"
       "5514:5514/udp"
-      "10003:10003/udp"
-      "6789:6789"
-      # maybe necessary?
-      "5005:5005"
-      "9543:9543"
-      "11084:11084"
+      "1900:1900/udp"
+
+      "11443:443"
+      "28082:28082"
       "5671:5671"
+      "6789:6789"
+      "8080:8080"
+      "8444:8444"
+      "8880:8880"
+      "8881:8881"
+      "8882:8882"
+      "9543:9543"
     ];
     environment = {
-      UOS_SYSTEM_IP = unifiDomain;
+      UOS_SYSTEM_IP = unifiControllerIp;
     };
   };
 
   networking.firewall.interfaces.${config.homelab.routing.interfaces.lan} = {
-    allowedTCPPorts = [ 8080 ];
+    allowedTCPPorts = [
+      11443
+      28082
+      5671
+      6789
+      8080
+      8444
+      8880
+      8881
+      8882
+      9543
+    ];
     allowedUDPPorts = [
-      1900
       10001
+      11002
+      10003
+      3478
+      5514
+      1900
     ];
   };
 
-  homelab.dns.additionalLocalRecords = [ "unifi" ];
+  homelab.dns.additionalLocalRecords = {
+    "unifi" = unifiControllerIp;
+  };
 
   networking.domains.subDomains.${unifiDomain} = {
     a.data = config.networking.domains.subDomains.${config.networking.fqdn}.a.data;
@@ -157,8 +188,76 @@ in
     forceSSL = true;
     enableACME = true;
     locations."/" = {
-      proxyPass = "https://127.0.0.1:11443";
+      proxyPass = "https://${unifiControllerIp}:443";
       proxyWebsockets = true;
+      recommendedProxySettings = false;
+      extraConfig = ''
+        proxy_set_header Host $proxy_host;
+        proxy_set_header Origin "";
+        proxy_set_header Referer "";
+
+        proxy_connect_timeout 60s;
+        proxy_read_timeout 300s;
+        proxy_send_timeout 300s;
+      '';
+    };
+  };
+
+  systemd.sockets.netavark-dhcp-proxy = {
+    description = "Netavark DHCP proxy socket";
+    socketConfig = {
+
+      SocketGroup = "podman";
+      ListenStream = "%t/podman/nv-proxy.sock";
+      SocketMode = "0660";
+    };
+
+    wantedBy = [ "sockets.target" ];
+  };
+
+  systemd.services.netavark-dhcp-proxy = {
+    description = "Netavark DHCP proxy service";
+
+    serviceConfig = {
+      Type = "exec";
+      ExecStart = "${pkgs.netavark}/bin/netavark dhcp-proxy -a 30";
+    };
+
+    after = [ "netavark-dhcp-proxy.socket" ];
+    requires = [ "netavark-dhcp-proxy.socket" ];
+    startLimitIntervalSec = 0;
+
+    wantedBy = [ "default.target" ];
+  };
+
+  systemd.network.netdevs = {
+    "5-${unifiNetworkShim}" = {
+      netdevConfig = {
+        Kind = "macvlan";
+        Name = unifiNetworkShim;
+      };
+      macvlanConfig = {
+        Mode = "bridge";
+      };
+    };
+  };
+  systemd.network.networks = {
+    "15-${config.homelab.routing.interfaces.lan}" = {
+      macvlan = [
+        unifiNetworkShim
+      ];
+    };
+    "15-${unifiNetworkShim}" = {
+      matchConfig.Name = unifiNetworkShim;
+      matchConfig.Type = "ether";
+      networkConfig = {
+        Address = "${unifiNetworkShimIp}/16";
+      };
+      routes = [
+        {
+          Destination = "${unifiControllerIp}/32";
+        }
+      ];
     };
   };
 }

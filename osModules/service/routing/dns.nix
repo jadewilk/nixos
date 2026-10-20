@@ -9,20 +9,33 @@ let
 
   dnsDomains = builtins.attrNames config.networking.domains.subDomains;
   simpleDataDomains = map (lib.removePrefix "*.") dnsDomains;
-  getLocalV4 = map (host: "\"${host}. 3600 IN A ${cfg.ip4}\"");
+
+  getV4 = lib.mapAttrsToList (host: ip: "\"${host}. 3600 IN A ${ip}\"");
+  hostsToLocalV4Pairs =
+    hosts: builtins.listToAttrs (map (host: lib.nameValuePair host cfg.ip4) hosts);
+  getLocalV4 = hosts: getV4 (hostsToLocalV4Pairs hosts);
+
   localData4 = getLocalV4 simpleDataDomains;
   localData6 = map (host: "\"${host}. 3600 IN AAAA ${cfg.linkLocal}\"") simpleDataDomains;
-  additionalLocal4 = getLocalV4 config.homelab.dns.additionalLocalRecords;
-  localData = localData4 ++ additionalLocal4 ++ localData6;
+  trivialLocal4 = getLocalV4 config.homelab.dns.trivialLocalRecords;
+  additionalLocal4 = getV4 config.homelab.dns.additionalLocalRecords;
+
+  localData = localData4 ++ trivialLocal4 ++ additionalLocal4 ++ localData6;
 
   wildcardRecords = builtins.filter (lib.hasPrefix "*.") dnsDomains;
   localZoneDomains = map (lib.removePrefix "*.") wildcardRecords;
   localZone = map (host: "\"${host}\" redirect") localZoneDomains;
 in
 {
-  options.homelab.dns.additionalLocalRecords = lib.mkOption {
-    type = lib.types.listOf lib.types.str;
-    default = [ ];
+  options.homelab.dns = {
+    trivialLocalRecords = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
+    additionalLocalRecords = lib.mkOption {
+      type = lib.types.attrsOf lib.types.str;
+      default = { };
+    };
   };
 
   config = lib.mkIf config.homelab.routing.router.enable {

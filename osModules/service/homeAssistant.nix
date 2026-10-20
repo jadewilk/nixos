@@ -151,7 +151,7 @@
 
     services.openthread-border-router = {
       enable = true;
-      logLevel = "debug";
+      logLevel = "warning";
       backboneInterfaces = [
         config.homelab.routing.interfaces.lan
       ];
