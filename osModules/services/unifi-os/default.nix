@@ -127,52 +127,9 @@ in
       "/var/opt/unifi/tmp" = [ "size=64m" ];
       "/data/unifi-core/config/http" = [ ];
     };
-    # ports taken from https://github.com/unihosted/unifi-os-server-docker/blob/main/docker-compose.yaml
-    ports = [
-      "10001:10001/udp"
-      "11002:11002/udp"
-      "10003:10003/udp"
-      "3478:3478/udp"
-      "5514:5514/udp"
-      "1900:1900/udp"
-
-      "11443:443"
-      "28082:28082"
-      "5671:5671"
-      "6789:6789"
-      "8080:8080"
-      "8444:8444"
-      "8880:8880"
-      "8881:8881"
-      "8882:8882"
-      "9543:9543"
-    ];
     environment = {
       UOS_SYSTEM_IP = unifiControllerIp;
     };
-  };
-
-  networking.firewall.interfaces.${config.homelab.routing.interfaces.lan} = {
-    allowedTCPPorts = [
-      11443
-      28082
-      5671
-      6789
-      8080
-      8444
-      8880
-      8881
-      8882
-      9543
-    ];
-    allowedUDPPorts = [
-      10001
-      11002
-      10003
-      3478
-      5514
-      1900
-    ];
   };
 
   homelab.dns.additionalLocalRecords = {
