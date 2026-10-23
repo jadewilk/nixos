@@ -84,6 +84,7 @@ in
               pyquerylist
               statsmodels
               tensorflow
+              keras
               mlxtend
               # imbalanced-learn
               graphviz
