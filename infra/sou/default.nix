@@ -97,16 +97,8 @@
       oauth2proxy.enable = true;
     };
   };
-  homelab.buildbot = {
-    enableWorker = true;
-    enableMaster = true;
-  };
-  networking.firewall.interfaces.${config.homelab.routing.interfaces.wan}.allowedTCPPorts = [ 9989 ];
 
-  homelab.nix = {
-    #hercules-ci.enable = true;
-    harmonia.enable = true;
-  };
+  homelab.nix.harmonia.enable = true;
 
   homelab.games = {
     # Needs statedir option fix /var/lib/factorio

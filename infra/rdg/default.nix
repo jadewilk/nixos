@@ -126,9 +126,6 @@ in
     backupPath = "/var/lib/kanidm/backups";
   };
 
-  homelab.buildbot.enableWorker = true;
-  services.buildbot-nix.worker.masterUrl = "tcp:host=buildbot.fogbox.uk:port=9989";
-
   homelab.ci.runners.gitlab.csgitlab.enabled = true;
   homelab.ci.runners.gitlab.csgitlab.secretPath = ../../secrets/runners/csgitlab/rdg.age;
 

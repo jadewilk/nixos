@@ -33,10 +33,6 @@
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    buildbot-nix = {
-      url = "github:Mic92/buildbot-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -128,8 +124,6 @@
                   ./overlays/homelab.nix
                   ./osModules/homelab.nix
                   ./osModules/routing.nix
-                  inputs.buildbot-nix.nixosModules.buildbot-master
-                  inputs.buildbot-nix.nixosModules.buildbot-worker
                   inputs.nixos-dns.nixosModules.dns
                 ];
 
