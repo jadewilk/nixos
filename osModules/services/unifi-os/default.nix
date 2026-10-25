@@ -35,8 +35,8 @@ let
   ];
 
   unifiDomain = "unifi.${config.homelab.tld}";
-  unifiNetwork = "uosservernetwork";
-  unifiNetworkShim = "uosservernetwork-shim";
+  unifiNetwork = "uosnetwork";
+  unifiNetworkShim = "uosnetwork-shim";
   unifiControllerIp = "192.168.1.3";
   unifiNetworkShimIp = "192.168.1.4";
 
@@ -204,11 +204,11 @@ in
         unifiNetworkShim
       ];
     };
-    "15-${unifiNetworkShim}" = {
+    "20-${unifiNetworkShim}" = {
       matchConfig.Name = unifiNetworkShim;
       matchConfig.Type = "ether";
       networkConfig = {
-        Address = "${unifiNetworkShimIp}/16";
+        Address = "${unifiNetworkShimIp}/${config.homelab.routing.systemd.networkd.subnet}";
       };
       routes = [
         {

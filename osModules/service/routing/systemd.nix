@@ -75,10 +75,14 @@ in
         Relevant if the uplink interface is being externally managed, eg, by ppp
       '';
     };
+    subnet = lib.mkOption {
+      type = lib.types.str;
+      default = "24";
+    };
     ipRange = lib.mkOption {
       type = lib.types.str;
-      default = "192.168.1.0/16";
-      example = "192.168.1.0/24";
+      default = "192.168.1.0/${cfg.systemd.networkd.subnet}";
+      example = "192.168.1.0/16";
       description = ''
         IP4 address range to use for the lan
       '';
@@ -112,7 +116,7 @@ in
                 LinkLocalAddressing = "ipv6";
                 DHCPPrefixDelegation = "yes";
                 DHCPServer = "yes";
-                Address = "${cfg.ip4}/16";
+                Address = "${cfg.ip4}/${cfg.systemd.networkd.subnet}";
                 IPv4Forwarding = "yes";
                 IPMasquerade = "ipv4";
               };
@@ -124,7 +128,7 @@ in
                 EmitNTP = "yes";
                 NTP = cfg.ip4;
                 PoolOffset = 100;
-                ServerAddress = "${cfg.ip4}/16";
+                ServerAddress = "${cfg.ip4}/${cfg.systemd.networkd.subnet}";
                 UplinkInterface = ":auto";
                 DefaultLeaseTimeSec = 1800;
               };
