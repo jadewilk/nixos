@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }:
 let
@@ -131,6 +132,9 @@ in
       UOS_SYSTEM_IP = unifiControllerIp;
     };
   };
+
+  systemd.services.${config.virtualisation.oci-containers.containers.uosserver.serviceName}.serviceConfig.Restart =
+    lib.mkForce "always";
 
   homelab.dns.additionalLocalRecords = {
     "unifi" = unifiControllerIp;
