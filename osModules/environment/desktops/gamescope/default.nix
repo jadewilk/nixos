@@ -24,6 +24,7 @@
     programs = {
       gamescope = {
         enable = true;
+        enableWsi = true;
         capSysNice = true;
       };
       steam.gamescopeSession.enable = true;
@@ -31,7 +32,7 @@
 
     services = {
       libinput.mouse.accelProfile = "flat";
-      xserver.enable = false; # Assuming no other Xserver needed
+      xserver.enable = false;
       getty.autologinUser = "philip";
       greetd = {
         enable = true;

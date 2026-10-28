@@ -140,13 +140,13 @@
       config.services.openthread-border-router.rest.listenPort
       config.services.openthread-border-router.web.listenPort
       config.services.zigbee2mqtt.settings.frontend.port
-      config.services.matter-server.port
+      config.services.matterjs-server.port
     ];
 
     networking.firewall.interfaces.wpan0.allowedTCPPorts = [
       config.services.openthread-border-router.rest.listenPort
       config.services.openthread-border-router.web.listenPort
-      config.services.matter-server.port
+      config.services.matterjs-server.port
     ];
 
     services.openthread-border-router = {
@@ -165,10 +165,21 @@
       web.listenAddress = "0.0.0.0";
     };
 
-    services.matter-server.enable = true;
-    systemd.services.matter-server = {
+    services.matterjs-server = {
+      enable = true;
+      listenAddress = "0.0.0.0";
+      extraArgs = [
+        "--primary-interface=${config.homelab.routing.interfaces.lan}"
+      ];
+    };
+    systemd.services.matterjs-server = {
       path = with pkgs; [ chip-ota-provider-app ];
-      serviceConfig.DynamicUser = lib.mkForce false;
+      serviceConfig = {
+        DynamicUser = lib.mkForce false;
+        ReadOnlyPaths = [
+          "/etc/resolv.conf"
+        ];
+      };
     };
 
     hardware.bluetooth.enable = true;
