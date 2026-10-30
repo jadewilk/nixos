@@ -20,6 +20,8 @@ in
       ./replaced/services/monitoring/prometheus/exporters.nix
       ./replaced/hardware/sensor/hddtemp.nix
       ./replaced/virtualisation/oci-containers.nix
+      ./replaced/services/development/jupyterhub/default.nix
+      ./replaced/services/development/jupyter/default.nix
     ];
 
   options.homelab = {
