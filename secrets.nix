@@ -105,4 +105,8 @@ in
   # oauth2-proxy
   ${s "oauth2proxy/client"}.publicKeys = servers;
   ${s "oauth2proxy/cookieSecret"}.publicKeys = servers;
+
+  # pulse-agent
+  ${s "pulse-agent/rdg"}.publicKeys = servers ++ workstations;
+  ${s "pulse-agent/sou"}.publicKeys = servers;
 }

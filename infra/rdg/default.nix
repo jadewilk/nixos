@@ -136,4 +136,10 @@ in
   };
 
   services.factorio.saveName = "buk2";
+
+  age.secrets.pulse-rdg.file = ../../secrets/pulse-agent/rdg.age;
+  services.pulse-agent = {
+    enable = true;
+    environmentFile = config.age.secrets.pulse-rdg.path;
+  };
 }

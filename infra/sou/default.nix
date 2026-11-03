@@ -190,4 +190,10 @@
 
     upsmon.monitor."SMT1500I".user = "upsmon";
   };
+
+  age.secrets.pulse-sou.file = ../../secrets/pulse-agent/sou.age;
+  services.pulse-agent = {
+    enable = true;
+    environmentFile = config.age.secrets.pulse-sou.path;
+  };
 }

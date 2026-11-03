@@ -32,5 +32,9 @@
         };
       };
     })
+
+    (final: prev: {
+      pulse-agent = prev.callPackage ./pulse-agent/package.nix { };
+    })
   ];
 }
