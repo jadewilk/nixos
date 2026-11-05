@@ -30,6 +30,7 @@
       "wireshark"
       "scanner"
       "lp"
+      "wpa_supplicant"
     ];
   };
 }

@@ -32,7 +32,6 @@
     };
     kernelModules = [
       "kvm-intel"
-      "pkcs8_key_parser"
     ];
     extraModulePackages = [ ];
   };

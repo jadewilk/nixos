@@ -5,7 +5,7 @@
   imports = [
     # original modules
     ./system/lanzaboote
-    ./system/iwd
+    ./system/wireless
     ./system/deepSleep
     ./system/plymouth
     ./system/wayland
