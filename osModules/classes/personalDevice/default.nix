@@ -11,7 +11,6 @@
     ../../system/drivers/openrazer
 
     ../../environment/programs/ventoy
-    ../../environment/programs/matlab
     ../../environment/programs/arion
     ../../environment/programs/openvpn
     ../../environment/programs/kitty

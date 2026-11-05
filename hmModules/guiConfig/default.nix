@@ -37,12 +37,4 @@
       font-name = "Manrope 13";
     };
   };
-
-  catppuccin = {
-    cursors = {
-      enable = true;
-      accent = "peach";
-    };
-    sources.whiskers = pkgs.catppuccin-whiskers;
-  };
 }

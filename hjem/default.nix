@@ -39,7 +39,6 @@ in
           localDef.programs = lib.mergeAttrs (
             if config.hjem.interactive then
               {
-                matlab.enable = true;
                 openldap.enable = true;
                 easyeffects.enable = true;
                 fcitx.enable = true;
