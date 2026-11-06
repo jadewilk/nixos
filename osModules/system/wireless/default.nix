@@ -58,8 +58,15 @@
 
       boot.kernelModules = [
         "pkcs8_key_parser"
+        "af_alg"
       ];
 
+      boot.kernelPatches = [
+        {
+          name = "7_3-allow-gcm(aes)-iwd";
+          patch = ./af-alg-allow-gcm-aes.patch;
+        }
+      ];
     })
   ];
 }
