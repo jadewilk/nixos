@@ -18,6 +18,9 @@
         networking.wireless = {
           enable = true;
           allowAuxiliaryImperativeNetworks = true;
+          wpaSupplicant.extraArgs = [
+            "-dd"
+          ];
         };
       };
     }
@@ -48,20 +51,23 @@
         };
       };
 
-      systemd.services.iwd.serviceConfig.ExecStartPre =
-        let
-          sleep = lib.getExe' pkgs.uutils-coreutils "uutils-sleep";
-        in
-        [
-          "${sleep} 2s"
-        ];
+      systemd.services.iwd.serviceConfig = {
+        Environment = [ "IWD_TLS_DEBUG=TRUE" ];
+        ExecStartPre =
+          let
+            sleep = lib.getExe' pkgs.uutils-coreutils "uutils-sleep";
+          in
+          [
+            "${sleep} 2s"
+          ];
+      };
 
       boot.kernelModules = [
         "pkcs8_key_parser"
         "af_alg"
       ];
 
-      boot.kernelPatches = [
+      boot.kernelPatches = lib.mkIf (config.specialisation != { }) [
         {
           name = "7_3-allow-gcm(aes)-iwd";
           patch = ./af-alg-allow-gcm-aes.patch;
