@@ -19,7 +19,6 @@ in
 
       ./replaced/services/monitoring/prometheus/exporters.nix
       ./replaced/hardware/sensor/hddtemp.nix
-      ./replaced/virtualisation/oci-containers.nix
       ./replaced/services/networking/pulse-agent.nix
     ];
 
