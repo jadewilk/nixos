@@ -3,6 +3,8 @@
   rustPlatform,
   fetchFromGitLab,
   ookla-speedtest,
+  aws-lc,
+  pkg-config,
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "pulse-agent";
@@ -20,7 +22,18 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   cargoHash = "sha256-Hp7pF+K8HfXhdiAOaZB9xWac04g6jl8g9rnSQM3RAEw=";
 
-  buildInputs = [ ookla-speedtest ];
+  env = {
+    AWS_LC_SYS_USE_SYSTEM = true;
+  };
+
+  nativeBuildInputs = [
+    pkg-config
+  ];
+
+  buildInputs = [
+    ookla-speedtest
+    aws-lc
+  ];
 
   postInstall = ''
     mkdir -p $out/usr/lib/systemd/system

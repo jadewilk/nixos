@@ -43,6 +43,12 @@ in
         User = "none";
         Group = "none";
         DynamicUser = true;
+        CapabilityBoundingSet = [
+          "CAP_NET_RAW"
+        ];
+        AmbientCapabilities = [
+          "CAP_NET_RAW"
+        ];
         StateDirectory = "pulse-agent";
         ExecStart = "${lib.getExe cfg.package} --server ${cfg.server} ${lib.concatStringsSep " " cfg.extraArgs}";
         EnvironmentFile = lib.mkIf (cfg.environmentFile != null) cfg.environmentFile;
