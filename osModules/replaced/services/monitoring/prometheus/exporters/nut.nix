@@ -70,7 +70,7 @@ in
         --web.listen-address="${cfg.listenAddress}:${toString cfg.port}" \
         ${optionalString (cfg.nutUser != "") "--nut.username=${cfg.nutUser}"} \
         "--nut.vars_enable=${
-          if cfg.nutVariables != [ ] then (concatStringsSep "," cfg.nutVariables) else " "
+          optionalString (cfg.nutVariables != [ ]) (concatStringsSep "," cfg.nutVariables)
         }" \
         ${concatStringsSep " " cfg.extraFlags}
     '';

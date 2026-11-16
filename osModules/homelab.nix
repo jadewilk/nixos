@@ -258,7 +258,7 @@ in
       services.dbus.implementation = "broker";
 
       services.prometheus.exporters = {
-        node.enable = true;
+        # node.enable = true;
         zfs.enable = true;
         smartctl.enable = true;
         unbound = {
