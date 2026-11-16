@@ -42,5 +42,6 @@
 
     # replaced modules
     # ./replaced/path/to/module.nix
+    ./replaced/services/networking/wpa_supplicant.nix
   ];
 }
