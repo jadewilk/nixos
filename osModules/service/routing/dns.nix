@@ -96,6 +96,15 @@ in
           key-cache-size = "256m";
           neg-cache-size = "256m";
 
+          so-rcvbuf = "4m";
+          so-sndbuf = "4m";
+          outgoing-range = 8192;
+          num-queries-per-thread = 4096;
+
+          serve-expired = true;
+          serve-expired-ttl = 86400; # seconds
+          serve-expired-client-timeout = 0;
+
           private-address = [
             "10.0.0.0/8"
             "172.16.0.0/12"
