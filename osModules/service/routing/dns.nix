@@ -10,13 +10,13 @@ let
   dnsDomains = builtins.attrNames config.networking.domains.subDomains;
   simpleDataDomains = map (lib.removePrefix "*.") dnsDomains;
 
-  getV4 = lib.mapAttrsToList (host: ip: "\"${host}. 3600 IN A ${ip}\"");
+  getV4 = lib.mapAttrsToList (host: ip: "\"${host}. 86400 IN A ${ip}\"");
   hostsToLocalV4Pairs =
     hosts: builtins.listToAttrs (map (host: lib.nameValuePair host cfg.ip4) hosts);
   getLocalV4 = hosts: getV4 (hostsToLocalV4Pairs hosts);
 
   localData4 = getLocalV4 simpleDataDomains;
-  localData6 = map (host: "\"${host}. 3600 IN AAAA ${cfg.linkLocal}\"") simpleDataDomains;
+  localData6 = map (host: "\"${host}. 86400 IN AAAA ${cfg.linkLocal}\"") simpleDataDomains;
   trivialLocal4 = getLocalV4 config.homelab.dns.trivialLocalRecords;
   additionalLocal4 = getV4 config.homelab.dns.additionalLocalRecords;
 
@@ -104,6 +104,9 @@ in
           serve-expired = true;
           serve-expired-ttl = 86400; # seconds
           serve-expired-client-timeout = 0;
+
+          cache-min-ttl = 86400;
+          cache-max-ttl = 604800;
 
           private-address = [
             "10.0.0.0/8"
