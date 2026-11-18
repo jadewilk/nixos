@@ -90,15 +90,9 @@ in
     };
   };
 
-  networking.domains = {
-    enable = true;
-    baseDomains.${config.homelab.tld} = { };
-    subDomains = {
-      ${config.networking.fqdn} = {
-        a.data = "158.173.146.38";
-        aaaa.data = "2a11:2646:1005:1:eaea:6aff:fe93:e61d";
-      };
-    };
+  networking.domains.subDomains.${config.networking.fqdn} = {
+    a.data = "158.173.146.38";
+    aaaa.data = "2a11:2646:1005:1:eaea:6aff:fe93:e61d";
   };
 
   homelab = {

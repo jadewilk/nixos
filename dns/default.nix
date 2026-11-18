@@ -1,5 +1,5 @@
 {
-  defaultTTL = 3600;
+  defaultTTL = 86400;
   zones = {
     "fogbox.uk"."".ns.data = [
       "ns1.desec.io"

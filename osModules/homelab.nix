@@ -182,6 +182,13 @@ in
           PasswordAuthentication = false;
         };
       };
+
+      networking.domains = {
+        enable = true;
+        defaultTTL = 86400;
+        baseDomains.${config.homelab.tld} = {
+        };
+      };
     }
 
     # Grafana

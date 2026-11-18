@@ -145,70 +145,76 @@ in
           "v=spf1 mx -all"
         ];
       };
-      "_25._tcp.${domain}".tlsa.data = [
-        {
-          certificateAssociationData = "d016e1fe311948aca64f2de44ce86c9a51ca041df6103bb52a88eb3f761f57d7";
-          usage = 2;
-          selector = 1;
-          matchingType = 1;
-        }
-        {
-          certificateAssociationData = "f8a2b4e23e82a4494e9998fcc4242bef1277656a118beede55ddfadcb82e20c5dc036dcb3b6c48d2ce04e362a9f477c82ad5a557b06b6f33b45ca6662b37c1c9";
-          usage = 2;
-          selector = 1;
-          matchingType = 2;
-        }
-        {
-          certificateAssociationData = "d1bc8e794c79b922996681fb4730b672d6019d2467023e8f346bc76ddd1c26e7";
-          usage = 3;
-          selector = 0;
-          matchingType = 1;
-        }
-        {
-          certificateAssociationData = "b2ea2aeba149f49a39d936b6072fe7874aba318a348b03f0e690f0761a2fce1df3034f58c73813b90773dee4b906b4a5485f332829b984e36aa548a5ec9b2806";
-          usage = 3;
-          selector = 0;
-          matchingType = 2;
-        }
-        {
-          certificateAssociationData = "f38a5c614a2bc41f780babf19b0416bc6e57b4dc365e2d46ea1a74631d0ba640";
-          usage = 3;
-          selector = 1;
-          matchingType = 1;
-        }
-        {
-          certificateAssociationData = "4868101a5923a8236d6657cfc5fa633c8b40badb8c5afe7c754e91a17ee61e7a649038db9139550e922a248eab6e47ccef1d4e4e0079885cd3cefc2d5ab5e010";
-          usage = 3;
-          selector = 1;
-          matchingType = 2;
-        }
-      ];
-      "_25._tcp.${svcDomain}".tlsa.data = [
-        {
-          certificateAssociationData = "a32bd1dde809ade2d815e6eb54c5704571f666e295995bd1015209f89167abf4";
-          usage = 3;
-          matchingType = 1;
-          selector = 0;
-        }
-        {
-          certificateAssociationData = "4303e868ad8e473ba5115d85a5e9a5f7c02e04f383c50a220bec594c3afe368cd896b12ff7aeb225ed151e3777dc9be0954506b50ae063c00063c4cff696e728";
-          usage = 3;
-          matchingType = 2;
-          selector = 0;
-        }
-        {
-          certificateAssociationData = "8758e76e7ee2e1a40c847ee4040cd9da891052d113d20f8a5bb5a172f4cea3be";
-          usage = 3;
-          matchingType = 1;
-          selector = 1;
-        }
-        {
-          certificateAssociationData = "d14014fdc68ea13351266e4f6a83a81a6f7a0f28fc45b45c5758be308f687b5a8cbfe1e3b0e4ce51c1d315645a086f42315a630f6cbdc63f2975b50ac451422f";
-          usage = 3;
-          matchingType = 2;
-          selector = 1;
-        }
-      ];
+      "_25._tcp.${domain}".tlsa = {
+        ttl = 3600;
+        data = [
+          {
+            certificateAssociationData = "d016e1fe311948aca64f2de44ce86c9a51ca041df6103bb52a88eb3f761f57d7";
+            usage = 2;
+            selector = 1;
+            matchingType = 1;
+          }
+          {
+            certificateAssociationData = "f8a2b4e23e82a4494e9998fcc4242bef1277656a118beede55ddfadcb82e20c5dc036dcb3b6c48d2ce04e362a9f477c82ad5a557b06b6f33b45ca6662b37c1c9";
+            usage = 2;
+            selector = 1;
+            matchingType = 2;
+          }
+          {
+            certificateAssociationData = "d1bc8e794c79b922996681fb4730b672d6019d2467023e8f346bc76ddd1c26e7";
+            usage = 3;
+            selector = 0;
+            matchingType = 1;
+          }
+          {
+            certificateAssociationData = "b2ea2aeba149f49a39d936b6072fe7874aba318a348b03f0e690f0761a2fce1df3034f58c73813b90773dee4b906b4a5485f332829b984e36aa548a5ec9b2806";
+            usage = 3;
+            selector = 0;
+            matchingType = 2;
+          }
+          {
+            certificateAssociationData = "f38a5c614a2bc41f780babf19b0416bc6e57b4dc365e2d46ea1a74631d0ba640";
+            usage = 3;
+            selector = 1;
+            matchingType = 1;
+          }
+          {
+            certificateAssociationData = "4868101a5923a8236d6657cfc5fa633c8b40badb8c5afe7c754e91a17ee61e7a649038db9139550e922a248eab6e47ccef1d4e4e0079885cd3cefc2d5ab5e010";
+            usage = 3;
+            selector = 1;
+            matchingType = 2;
+          }
+        ];
+      };
+      "_25._tcp.${svcDomain}".tlsa = {
+        ttl = 3600;
+        data = [
+          {
+            certificateAssociationData = "a32bd1dde809ade2d815e6eb54c5704571f666e295995bd1015209f89167abf4";
+            usage = 3;
+            matchingType = 1;
+            selector = 0;
+          }
+          {
+            certificateAssociationData = "4303e868ad8e473ba5115d85a5e9a5f7c02e04f383c50a220bec594c3afe368cd896b12ff7aeb225ed151e3777dc9be0954506b50ae063c00063c4cff696e728";
+            usage = 3;
+            matchingType = 2;
+            selector = 0;
+          }
+          {
+            certificateAssociationData = "8758e76e7ee2e1a40c847ee4040cd9da891052d113d20f8a5bb5a172f4cea3be";
+            usage = 3;
+            matchingType = 1;
+            selector = 1;
+          }
+          {
+            certificateAssociationData = "d14014fdc68ea13351266e4f6a83a81a6f7a0f28fc45b45c5758be308f687b5a8cbfe1e3b0e4ce51c1d315645a086f42315a630f6cbdc63f2975b50ac451422f";
+            usage = 3;
+            matchingType = 2;
+            selector = 1;
+          }
+        ];
+      };
       "_autodiscover._tcp.${domain}".srv.data = {
         port = 443;
         priority = 0;
@@ -238,10 +244,14 @@ in
         a.data = config.networking.domains.subDomains.${config.networking.fqdn}.a.data;
         aaaa.data = config.networking.domains.subDomains.${config.networking.fqdn}.aaaa.data;
       };
-      "ed25519._domainkey.${domain}".txt.data =
-        "v=DKIM1\; k=ed25519\; h=sha256\;  p=s/W3ANKFxjoNMOExp2qERf8n6xG5luqsc4zMi7N3STs=";
-      "ed25519._domainkey.${svcDomain}".txt.data =
-        "v=DKIM1\; k=ed25519\; h=sha256\; p=E/tuN0Wl3tKmrsNCSjPEXySuZnEAQ=";
+      "ed25519._domainkey.${domain}".txt = {
+        ttl = 3600;
+        data = "v=DKIM1\; k=ed25519\; h=sha256\;  p=s/W3ANKFxjoNMOExp2qERf8n6xG5luqsc4zMi7N3STs=";
+      };
+      "ed25519._domainkey.${svcDomain}".txt = {
+        ttl = 3600;
+        data = "v=DKIM1\; k=ed25519\; h=sha256\; p=E/tuN0Wl3tKmrsNCSjPEXySuZnEAQ=";
+      };
       "imap.${domain}" = {
         a.data = config.networking.domains.subDomains.${config.networking.fqdn}.a.data;
         aaaa.data = config.networking.domains.subDomains.${config.networking.fqdn}.aaaa.data;
@@ -250,10 +260,14 @@ in
         a.data = config.networking.domains.subDomains.${config.networking.fqdn}.a.data;
         aaaa.data = config.networking.domains.subDomains.${config.networking.fqdn}.aaaa.data;
       };
-      "rsa._domainkey.${domain}".txt.data =
-        "v=DKIM1\; k=rsa\; h=sha256\; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0Na56hadA75MTKusFYd385gj4CcCZ8q4T9gsjtTnp3MK1zlXerM3BLKUL4f/v/YKdZR8wEd/Z9CSc++6XXEVR+pQTBzaBKc9o05ZJRFY5zLFM5asGrwba5cNFQrSjzTlGz/d/886TUFFTIlTBqoiMgM9yY/5nW9LYj5Rb+XX65XnF1V+p8g4iDz1S3OmjTFMGqXSsD4deFI77Q7NVKUQTLQgjkjl2awrD3sOQEGshHFDtSHrdajs8ohAYXbXZPlBgnP+SY1XJwfNOdTIX5sadU2MvsjArhJyKt69dwezFq+pm6e4pL+0nP2rJyzPSI8vWe+q2GYcT08wyKdKc7uvjQIDAQAB";
-      "rsa._domainkey.${svcDomain}".txt.data =
-        "v=DKIM1\; k=rsa\; h=sha256\; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvaInXJBK5kzhAxDeUd+Fz6S86WtH7z7L+mZK6Cb6xOGKzeY9emjQUgjLz9EfTPIbmCLQAjBaoSJbSMZXsQFZe9ruW6fKV7dnKYklb42sxHOyKpeip5XBaPK9KeFl4680fZbB309NTlpNH9whjyFavwSj4zfZtCV4sa7Ker8s6HiTFgKpr2b8C1Tz12u5TYFWoP5t17wEcQofxW0U8y32H8SCsjARDvxgdwzxRBRvIPPDLF3lBVFrRLIsKKduI8bOSmZX+1cFddwlyJGRWiDozxzW1EufUR3W0YFdfCdy2V/xn+OHNsBsnDPCDVhbEeBHJvDDslnIrIE8Sa1cFbVHIQIDAQAB";
+      "rsa._domainkey.${domain}".txt = {
+        ttl = 3600;
+        data = "v=DKIM1\; k=rsa\; h=sha256\; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0Na56hadA75MTKusFYd385gj4CcCZ8q4T9gsjtTnp3MK1zlXerM3BLKUL4f/v/YKdZR8wEd/Z9CSc++6XXEVR+pQTBzaBKc9o05ZJRFY5zLFM5asGrwba5cNFQrSjzTlGz/d/886TUFFTIlTBqoiMgM9yY/5nW9LYj5Rb+XX65XnF1V+p8g4iDz1S3OmjTFMGqXSsD4deFI77Q7NVKUQTLQgjkjl2awrD3sOQEGshHFDtSHrdajs8ohAYXbXZPlBgnP+SY1XJwfNOdTIX5sadU2MvsjArhJyKt69dwezFq+pm6e4pL+0nP2rJyzPSI8vWe+q2GYcT08wyKdKc7uvjQIDAQAB";
+      };
+      "rsa._domainkey.${svcDomain}".txt = {
+        ttl = 3600;
+        data = "v=DKIM1\; k=rsa\; h=sha256\; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvaInXJBK5kzhAxDeUd+Fz6S86WtH7z7L+mZK6Cb6xOGKzeY9emjQUgjLz9EfTPIbmCLQAjBaoSJbSMZXsQFZe9ruW6fKV7dnKYklb42sxHOyKpeip5XBaPK9KeFl4680fZbB309NTlpNH9whjyFavwSj4zfZtCV4sa7Ker8s6HiTFgKpr2b8C1Tz12u5TYFWoP5t17wEcQofxW0U8y32H8SCsjARDvxgdwzxRBRvIPPDLF3lBVFrRLIsKKduI8bOSmZX+1cFddwlyJGRWiDozxzW1EufUR3W0YFdfCdy2V/xn+OHNsBsnDPCDVhbEeBHJvDDslnIrIE8Sa1cFbVHIQIDAQAB";
+      };
       ${mail_selfservice_domain} = {
         a.data = config.networking.domains.subDomains.${config.networking.fqdn}.a.data;
         aaaa.data = config.networking.domains.subDomains.${config.networking.fqdn}.aaaa.data;
