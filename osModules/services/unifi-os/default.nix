@@ -11,29 +11,37 @@ let
       {
         src = pkgs.fetchurl {
           inherit url;
-          hash = "sha256-9hEek5akLHQBb13emwH770hqb+ae/hN5Nebji3wi+U0=";
+          hash = "sha256-+RjV3QFdzaT8uxzuX0iooCmivF2IXtMRTNm5g8cZlac=";
         };
       }
       ''
         ${pkgs.unzip}/bin/unzip -p $src image.tar > $out || (($?==1))
       '';
-  version = "5.1.42";
+  version = "6.0.21";
   arch = "linux-x64";
-  imageFile = fetchImage "https://fw-download.ubnt.com/data/unifi-os-server/5172-linux-x64-5.1.42-12e9e3cf-8f8b-4e54-928c-76b80a10c8a4.42-x64";
+  imageFile = fetchImage "https://fw-download.ubnt.com/data/unifi-os-server/37c2-linux-x64-6.0.21-f1a1e11d-30fa-4687-94b1-07229690ad6a.21-x64";
   image = "oci-archive:${imageFile}";
 
-  hostStateDirectory = "/var/lib/uos-server";
+  stateDirectory = "/var/lib/uosserver";
+  containerStateDirectories = [
+    "/persistent"
+    "/var/log"
+    "/var/lib/uosserver"
+    "/var/lib/unifi"
+    "/var/lib/mongodb"
+    "/etc/rabbitmq"
+    "/data"
+    "/srv"
+  ];
+  absoluteContainerStateDirectories = map (csd: "${stateDirectory}${csd}") containerStateDirectories;
+
   volumes = [
     "/sys/fs/cgroup:/sys/fs/cgroup:rw"
-    "${hostStateDirectory}/persistent:/persistent"
-    "${hostStateDirectory}/var/log:/var/log"
-    "${hostStateDirectory}/data/:/data"
-    "${hostStateDirectory}/srv:/srv"
-    "${hostStateDirectory}/var/lib/unifi:/var/lib/unifi"
-    "${hostStateDirectory}/var/lib/mongodb:/var/lib/mongodb"
-    "${hostStateDirectory}/etc/rabbitmq/ssl:/etc/rabbitmq/ssl"
     "${entryPointScript}:/entrypoint.sh:ro"
-  ];
+  ]
+  ++ (lib.lists.zipListsWith (
+    acsd: csd: "${acsd}:${csd}"
+  ) absoluteContainerStateDirectories containerStateDirectories);
 
   unifiDomain = "unifi.${config.homelab.tld}";
   unifiNetwork = "uosnetwork";
@@ -77,8 +85,18 @@ let
     ensure_dir "/var/log/mongodb"   "mongodb:mongodb"
     ensure_dir "/var/log/rabbitmq"  "rabbitmq:rabbitmq"
 
+
     chown -R mongodb:mongodb /var/lib/mongodb
 
+    PGDATA="/data/postgresql"
+    if [ -d "$PGDATA" ]; then
+        echo "Setting PostgreSQL permissions"
+        chown -R postgres:postgres "$PGDATA"
+        find "$PGDATA" -type d -exec chmod 755 {} \;
+        find "$PGDATA" -type f -exec chmod 644 {} \;
+        find "$PGDATA/14/main/data" -type d -exec chmod 700 {} \;
+        find "$PGDATA/14/main/data" -type f -exec chmod 600 {} \;
+    fi
 
     if [ ! -d /sys/devices/virtual/net/eth0 ] && [ -d /sys/devices/virtual/net/tap0 ]; then
         ip link add name eth0 link tap0 type macvlan
@@ -99,6 +117,16 @@ let
   '';
 in
 {
+  # annoying podman docker incompat https://github.com/podman-container-tools/podman/issues/4891#issuecomment-575778042
+  # volume mount directories ARE NOT created if missing
+  systemd.tmpfiles.settings.uosserver = lib.genAttrs absoluteContainerStateDirectories (csd: {
+    d = {
+      mode = "0700";
+      user = "root";
+      group = "root";
+    };
+  });
+
   # see https://www.unihosted.com/blog/running-unifi-os-server-in-docker
   # and https://github.com/leo60228/dotfiles/blob/395b43495bf499310589996b0b16ae93c082e401/systems/greenhouse/default.nix#L154-L210
   virtualisation.oci-containers.containers.uosserver = {
@@ -107,6 +135,7 @@ in
     capabilities = {
       NET_RAW = true;
       NET_ADMIN = true;
+      SETPCAP = true;
     };
     networks = [
       unifiNetwork
@@ -133,8 +162,11 @@ in
     };
   };
 
-  systemd.services.${config.virtualisation.oci-containers.containers.uosserver.serviceName}.serviceConfig.Restart =
-    lib.mkForce "always";
+  systemd.services.${config.virtualisation.oci-containers.containers.uosserver.serviceName}.serviceConfig =
+    {
+      Restart = lib.mkForce "always";
+      StateDirectory = "uosserver";
+    };
 
   homelab.dns.additionalLocalRecords = {
     "unifi" = unifiControllerIp;
