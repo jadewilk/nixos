@@ -11,15 +11,15 @@ let
       {
         src = pkgs.fetchurl {
           inherit url;
-          hash = "sha256-9hEek5akLHQBb13emwH770hqb+ae/hN5Nebji3wi+U0=";
+          hash = "sha256-+RjV3QFdzaT8uxzuX0iooCmivF2IXtMRTNm5g8cZlac=";
         };
       }
       ''
         ${pkgs.unzip}/bin/unzip -p $src image.tar > $out || (($?==1))
       '';
-  version = "5.1.42";
+  version = "6.0.21";
   arch = "linux-x64";
-  imageFile = fetchImage "https://fw-download.ubnt.com/data/unifi-os-server/5172-linux-x64-5.1.42-12e9e3cf-8f8b-4e54-928c-76b80a10c8a4.42-x64";
+  imageFile = fetchImage "https://fw-download.ubnt.com/data/unifi-os-server/37c2-linux-x64-6.0.21-f1a1e11d-30fa-4687-94b1-07229690ad6a.21-x64";
   image = "oci-archive:${imageFile}";
 
   stateDirectory = "/var/lib/uosserver";
