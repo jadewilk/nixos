@@ -22,18 +22,28 @@ let
   imageFile = fetchImage "https://fw-download.ubnt.com/data/unifi-os-server/5172-linux-x64-5.1.42-12e9e3cf-8f8b-4e54-928c-76b80a10c8a4.42-x64";
   image = "oci-archive:${imageFile}";
 
-  hostStateDirectory = "/var/lib/uos-server";
+  stateDirectory = "/var/lib/uosserver";
+  containerStateDirectories = [
+    "/persistent"
+    "/var/log"
+    "/var/lib/uosserver"
+    "/var/lib/unifi"
+    "/var/lib/mongodb"
+    "/etc/rabbitmq/ssl"
+    "/data"
+    "/srv"
+  ];
+  absoluteContainerStateDirectories = map (csd: "${stateDirectory}${csd}") containerStateDirectories;
+
   volumes = [
     "/sys/fs/cgroup:/sys/fs/cgroup:rw"
-    "${hostStateDirectory}/persistent:/persistent"
-    "${hostStateDirectory}/var/log:/var/log"
-    "${hostStateDirectory}/data/:/data"
-    "${hostStateDirectory}/srv:/srv"
-    "${hostStateDirectory}/var/lib/unifi:/var/lib/unifi"
-    "${hostStateDirectory}/var/lib/mongodb:/var/lib/mongodb"
-    "${hostStateDirectory}/etc/rabbitmq/ssl:/etc/rabbitmq/ssl"
     "${entryPointScript}:/entrypoint.sh:ro"
-  ];
+    "${postgresServiceDropIn}:/lib/systemd/system/postgresql-cluster@14-upgrade.service.d/use-postgres-user.conf:ro"
+    "${postgresServiceDropIn}:/lib/systemd/system/postgresql@14-main.service.d/use-postgres-user.conf:ro"
+  ]
+  ++ (lib.lists.zipListsWith (
+    acsd: csd: "${acsd}:${csd}:U"
+  ) absoluteContainerStateDirectories containerStateDirectories);
 
   unifiDomain = "unifi.${config.homelab.tld}";
   unifiNetwork = "uosnetwork";
@@ -44,6 +54,20 @@ let
   # see https://github.com/unihosted/unifi-os-server-docker/blob/91144ab74f2703b4713d22cc882303f37a71b72d/uos-entrypoint.sh#L216
   entryPointScript = pkgs.writeScript "entrypoint.sh" ''
     #!/bin/bash
+
+    # Ensure dpkg persistent directories exist
+    source /etc/os-release
+    if [ ! -f "/persistent/dpkg/$VERSION_CODENAME/actions" ]; then
+      mkdir -p /persistent/dpkg/$VERSION_CODENAME/actions
+    else
+      echo "$VERSION_CODENAME actions directory already exists"
+    fi
+    if [ ! -f "/persistent/dpkg/$VERSION_CODENAME/packages" ]; then
+      mkdir -p /persistent/dpkg/$VERSION_CODENAME/packages
+    else
+      echo "$VERSION_CODENAME packages directory already exists"
+    fi
+
 
     DATA_DIR="/data"
 
@@ -79,6 +103,15 @@ let
 
     chown -R mongodb:mongodb /var/lib/mongodb
 
+    PGDATA="/data/postgresql"
+    if [ -d "$PGDATA" ]; then
+        echo "Setting PostgreSQL permissions"
+        chown -R postgres:postgres "$PGDATA"
+        find "$PGDATA" -type d -exec chmod 755 {} \;
+        find "$PGDATA" -type f -exec chmod 644 {} \;
+        find "$PGDATA/14/main/data" -type d -exec chmod 700 {} \;
+        find "$PGDATA/14/main/data" -type f -exec chmod 600 {} \;
+    fi
 
     if [ ! -d /sys/devices/virtual/net/eth0 ] && [ -d /sys/devices/virtual/net/tap0 ]; then
         ip link add name eth0 link tap0 type macvlan
@@ -97,8 +130,27 @@ let
 
     exec /sbin/init
   '';
+
+  # writeTextFile takes an attrset with a writer eg builtins.toJSON.this will need a toCONF
+  postgresServiceDropIn = pkgs.writeTextFile {
+    name = "postgresServiceDropIn";
+    text = ''
+      [Service]
+      User=postgres
+    '';
+  };
 in
 {
+  # annoying podman docker incompat https://github.com/podman-container-tools/podman/issues/4891#issuecomment-575778042
+  # volume mount directories ARE NOT created if missing
+  systemd.tmpfiles.settings.uosserver = lib.genAttrs absoluteContainerStateDirectories (csd: {
+    d = {
+      mode = "0755";
+      user = "root";
+      group = "root";
+    };
+  });
+
   # see https://www.unihosted.com/blog/running-unifi-os-server-in-docker
   # and https://github.com/leo60228/dotfiles/blob/395b43495bf499310589996b0b16ae93c082e401/systems/greenhouse/default.nix#L154-L210
   virtualisation.oci-containers.containers.uosserver = {
@@ -133,8 +185,11 @@ in
     };
   };
 
-  systemd.services.${config.virtualisation.oci-containers.containers.uosserver.serviceName}.serviceConfig.Restart =
-    lib.mkForce "always";
+  systemd.services.${config.virtualisation.oci-containers.containers.uosserver.serviceName}.serviceConfig =
+    {
+      Restart = lib.mkForce "always";
+      StateDirectory = "uosserver";
+    };
 
   homelab.dns.additionalLocalRecords = {
     "unifi" = unifiControllerIp;
