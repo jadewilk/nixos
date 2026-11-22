@@ -17,7 +17,6 @@ in
       ./system/users/philip-server
       ./system/users/nixbuilder
 
-      ./replaced/services/monitoring/prometheus/exporters.nix
       ./replaced/hardware/sensor/hddtemp.nix
       ./replaced/services/networking/pulse-agent.nix
     ];
