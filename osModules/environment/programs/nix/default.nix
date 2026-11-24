@@ -14,7 +14,7 @@
     ];
   };
   nix = {
-    package = pkgs.nixVersions.nix_2_34;
+    package = pkgs.nixVersions.nix_2_36;
     registry = lib.mapAttrs (_: value: { flake = value; }) {
       inherit (inputs) nixpkgs;
     };
@@ -30,6 +30,7 @@
       trusted-users = [ "philip" ];
       substituters = [ "https://cache.fogbox.uk" ];
       trusted-public-keys = [ "cache.fogbox.uk:lwlsX4TZdJXQzfqTWRMf/I8xTlR/i+B5RTkD2BQhzdA=" ];
+      http3 = true;
     };
     gc = {
       automatic = true;
