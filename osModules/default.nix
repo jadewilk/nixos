@@ -19,11 +19,6 @@ in
     # replaced modules
     # ./replaced/path/to/module.nix
 
-    # Desktop environments
-    ./environment/desktops/gnome
-    ./environment/desktops/sway
-    ./environment/desktops/gamescope
-
     ./system/latestKernel
     ./system/bootable
     ./system/region
@@ -31,7 +26,6 @@ in
     ./environment/programs/fish
     ./environment/programs/nix
     ./environment/programs/agenix
-    ./environment/programs/homeManager
 
     ./environment/baseCli
   ];

@@ -10,6 +10,9 @@
 
   system.stateVersion = "24.11"; # Did you read the comment?
 
+  flakeConfig.environment.primaryHomeManagedUser = "philip";
+  hjem.users.philip.localDef.programs.gh.user = "jadewilk-robot";
+
   networking.wireless.iwd = {
     enable = true;
     settings.General = {

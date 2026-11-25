@@ -5,6 +5,8 @@
   ...
 }:
 let
+  interactive = config.hjem.interactive;
+
   commonLocalDef = {
     bottom.enable = true;
     bat.enable = true;
@@ -18,10 +20,19 @@ let
     zoxide.enable = true;
     helix.enable = true;
     starship.enable = true;
-    gh.enable = true;
+    gh = {
+      enable = true;
+      inherit interactive;
+    };
     gh-dash.enable = true;
     kakoune.enable = true;
     fish.enable = true;
+
+    openldap.enable = interactive;
+    easyeffects.enable = interactive;
+    fcitx.enable = interactive;
+    kitty.enable = interactive;
+    fuzzel.enable = interactive;
   };
 in
 {
@@ -36,20 +47,7 @@ in
         philip = lib.mkIf (config.flakeConfig.environment.primaryHomeManagedUser == "philip") {
           directory = "/home/philip";
           user = "philip";
-          localDef.programs = lib.mergeAttrs (
-            if config.hjem.interactive then
-              {
-                openldap.enable = true;
-                easyeffects.enable = true;
-                fcitx.enable = true;
-                kitty.enable = true;
-                fuzzel.enable = true;
-                # nix-index.enable = true;
-                # nix-index-database / comma
-              }
-            else
-              { }
-          ) commonLocalDef;
+          localDef.programs = commonLocalDef;
         };
         root = {
           directory = "/root";

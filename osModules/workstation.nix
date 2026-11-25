@@ -16,6 +16,13 @@
     ./system/powerProfiles
     ./system/timezoned
 
+    ./environment/programs/homeManager
+
+    # Desktop environments
+    ./environment/desktops/gnome
+    ./environment/desktops/sway
+    ./environment/desktops/gamescope
+
     ./environment/containers
     ./environment/virtualisation
     ./environment/androidTools

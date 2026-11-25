@@ -19,6 +19,8 @@ in
 
       ./replaced/hardware/sensor/hddtemp.nix
       ./replaced/services/networking/pulse-agent.nix
+
+      ./environment/nixTools
     ];
 
   options.homelab = {

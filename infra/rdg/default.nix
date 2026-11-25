@@ -20,6 +20,9 @@ in
 
   system.stateVersion = "25.11";
 
+  flakeConfig.environment.primaryHomeManagedUser = "philip";
+  hjem.users.philip.localDef.programs.gh.user = "jadewilk-robot";
+
   systemd.network.wait-online.enable = false;
   systemd.network.links = {
     "90-${linkNames.wan}" = {
