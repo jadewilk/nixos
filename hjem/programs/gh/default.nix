@@ -25,7 +25,7 @@
         "github.com" = {
           git_protocol = "ssh";
           users.jadewilk = { };
-          user = "jadewilk";
+          user = lib.mkDefault "jadewilk";
         };
       };
     };

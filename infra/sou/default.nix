@@ -10,6 +10,12 @@
 
   system.stateVersion = "24.11"; # Did you read the comment?
 
+  flakeConfig.environment.primaryHomeManagedUser = "philip";
+  hjem.users.philip.xdg.config.files."gh/hosts.yml".value."github.com" = {
+    users.jadewilk-robot = { };
+    user = "jadewilk-robot";
+  };
+
   networking.wireless.iwd = {
     enable = true;
     settings.General = {
