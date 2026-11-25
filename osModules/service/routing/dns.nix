@@ -103,10 +103,11 @@ in
 
           serve-expired = true;
           serve-expired-ttl = 86400; # seconds
+          serve-expired-ttl-reset = false;
           serve-expired-client-timeout = 0;
 
-          cache-min-ttl = 86400;
-          cache-max-ttl = 604800;
+          cache-min-ttl = 3600;
+          cache-max-ttl = 86400;
 
           private-address = [
             "10.0.0.0/8"
