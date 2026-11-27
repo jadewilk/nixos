@@ -51,6 +51,16 @@ let
   unifiControllerIp = "192.168.1.3";
   unifiNetworkShimIp = "192.168.1.4";
 
+  # borrowed from https://github.com/unihosted/unifi-os-server-docker/blob/c53d38166c410672f2217efe67b13f35a1d2af95/uos-entrypoint.sh
+  # but modified for nix
+  unifiSystemPropertiesPath = "/data/unifi/data/system.properties";
+  setUnifiProperty = key: value: ''
+    if grep -q "^${key}=" "${unifiSystemPropertiesPath}" 2>/dev/null; then
+        sed -i "s|^${key}=.*|${key}=${value}|" "${unifiSystemPropertiesPath}"
+    else
+        echo "${key}=${value}" >> "${unifiSystemPropertiesPath}"
+    fi
+  '';
   # see https://github.com/unihosted/unifi-os-server-docker/blob/91144ab74f2703b4713d22cc882303f37a71b72d/uos-entrypoint.sh#L216
   entryPointScript = pkgs.writeScript "entrypoint.sh" ''
     #!/bin/bash
@@ -68,6 +78,10 @@ let
       printf "$VERSION_CODENAME packages directory already exists"
     fi
 
+    # ensure that the controller ip is set - otherwise device adoption will fail and devices will adoption loop.
+    # this doesnt not appear to get backed up? and uses loopback ip by default...
+    # set on each start to ensure it is set + correct
+    ${setUnifiProperty "system_ip" unifiControllerIp}
 
     DATA_DIR="/data"
 
@@ -183,9 +197,6 @@ in
       "/var/lib/journal" = [ ];
       "/var/opt/unifi/tmp" = [ "size=64m" ];
       "/data/unifi-core/config/http" = [ ];
-    };
-    environment = {
-      UOS_SYSTEM_IP = unifiControllerIp;
     };
   };
 
