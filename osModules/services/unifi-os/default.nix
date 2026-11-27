@@ -68,6 +68,24 @@ let
       printf "$VERSION_CODENAME packages directory already exists"
     fi
 
+    # stolen from https://github.com/unihosted/unifi-os-server-docker/blob/c53d38166c410672f2217efe67b13f35a1d2af95/uos-entrypoint.shseems to use loopback ip by default...
+    UNIFI_SYSTEM_PROPERTIES="/data/unifi/data/system.properties"
+    set_unifi_property() {
+        local key="$1" value="$2"
+        local escaped_value="$value//\\/\\\\"
+        escaped_value="$escaped_value//&/\\&"
+        if grep -q "^$key=" "$UNIFI_SYSTEM_PROPERTIES" 2>/dev/null; then
+            sed -i "s|^$key=.*|$key=$escaped_value|" "$UNIFI_SYSTEM_PROPERTIES"
+        else
+            echo "$\{key}=$\{value}" >> "$UNIFI_SYSTEM_PROPERTIES"
+        fi
+    }
+
+    # ensure that the controller ip is set - otherwise device adoption will fail and devices will adoption loop.
+    # this doesnt not appear to get backed up? and uses loopback ip by default...
+    # set on each start to ensure it is set + correct
+    set_unifi_property "system_ip" "${unifiControllerIp}"
+
 
     DATA_DIR="/data"
 
@@ -183,9 +201,6 @@ in
       "/var/lib/journal" = [ ];
       "/var/opt/unifi/tmp" = [ "size=64m" ];
       "/data/unifi-core/config/http" = [ ];
-    };
-    environment = {
-      UOS_SYSTEM_IP = unifiControllerIp;
     };
   };
 
